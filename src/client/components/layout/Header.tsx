@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Image } from 'lucide-react';
 
 const Header = () => {
@@ -12,12 +12,31 @@ const Header = () => {
           </Link>
 
           <nav className="flex items-center space-x-6">
-            <Link
+            <NavLink
               to="/"
-              className="text-gray-700 hover:text-primary transition-colors"
+              end
+              className={({ isActive }) =>
+                `transition-colors ${
+                  isActive
+                    ? 'text-primary font-medium'
+                    : 'text-gray-700 hover:text-primary'
+                }`
+              }
             >
               Favicon Converter
-            </Link>
+            </NavLink>
+            <NavLink
+              to="/converter"
+              className={({ isActive }) =>
+                `transition-colors ${
+                  isActive
+                    ? 'text-primary font-medium'
+                    : 'text-gray-700 hover:text-primary'
+                }`
+              }
+            >
+              Image Converter
+            </NavLink>
           </nav>
         </div>
       </div>
