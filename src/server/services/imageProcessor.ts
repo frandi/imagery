@@ -191,9 +191,6 @@ export class ImageProcessor {
           case 'gif':
             processor = processor.gif(presetSettings.gif);
             break;
-          case 'bmp':
-            // Sharp doesn't support BMP output format
-            throw new Error('BMP output format is not supported. Please use PNG, JPEG, or WebP instead.');
           case 'heif':
           case 'heic':
             processor = processor.heif(presetSettings.heif);
