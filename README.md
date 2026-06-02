@@ -226,3 +226,4 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+<!-- BRL-7: SVG export now preserves original colors (AC Verify test PR). -->
