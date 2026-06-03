@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import multer from 'multer';
 import { isDevelopment } from '../config/env.config';
 
 /**
@@ -12,6 +13,26 @@ export const errorHandler = (
   _next: NextFunction
 ) => {
   console.error('Error:', err);
+
+  // Handle Multer-specific errors (file uploads)
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({
+        success: false,
+        error: {
+          message: 'File too large. Maximum size is 10MB.',
+          code: 'FILE_TOO_LARGE'
+        }
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      error: {
+        message: err.message || 'File upload error',
+        code: err.code || 'UPLOAD_ERROR'
+      }
+    });
+  }
 
   const statusCode = err.statusCode || err.status || 500;
   const message = err.message || 'Internal server error';
