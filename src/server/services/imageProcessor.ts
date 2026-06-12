@@ -65,7 +65,7 @@ export class ImageProcessor {
         sizes.map(size =>
           sharp(inputPath)
             .resize(size, size, {
-              fit: 'cover',
+              fit: 'contain',
               position: 'center',
               background: { r: 255, g: 255, b: 255, alpha: 0 }
             })
