@@ -162,9 +162,18 @@ export class ImageProcessor {
           .png()
           .toBuffer();
 
+        // Extract the image's dominant color so the trace is rendered in that
+        // color instead of plain black. (Full per-color-layer tracing is a follow-up.)
+        const { dominant } = await sharp(inputPath).stats();
+        const dominantHex =
+          '#' +
+          [dominant.r, dominant.g, dominant.b]
+            .map((c) => c.toString(16).padStart(2, '0'))
+            .join('');
+
         // Trace to SVG using potrace
         const svgString = await potraceTrace(pngBuffer, {
-          color: 'auto',
+          color: dominantHex,
           threshold: 128,
           optCurve: true,
           optTolerance: 0.2
