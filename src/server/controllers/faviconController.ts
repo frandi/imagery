@@ -104,7 +104,7 @@ export const downloadFavicon = asyncHandler(async (req: Request, res: Response) 
   const { filename } = req.params;
 
   // Validate filename (basic security check)
-  if (!filename || filename.includes('..') || filename.includes('/')) {
+  if (!filename || filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
     return res.status(400).json({
       success: false,
       error: {
