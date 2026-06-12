@@ -22,6 +22,20 @@ export const convertToFavicon = asyncHandler(async (req: Request, res: Response)
     });
   }
 
+  // Reject oversized uploads with a clean 413 before any processing begins, so a
+  // large file fails fast instead of hanging and 500-ing partway through convert.
+  const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10MB
+  if (req.file.size > MAX_UPLOAD_BYTES) {
+    await fileCleanup.immediateCleanup(req.file.path);
+    return res.status(413).json({
+      success: false,
+      error: {
+        message: 'File too large. Maximum size is 10MB.',
+        code: 'FILE_TOO_LARGE'
+      }
+    });
+  }
+
   const { sizes: sizesParam } = req.body;
   const uploadedFilePath = req.file.path;
 
